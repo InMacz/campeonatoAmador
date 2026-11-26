@@ -9,7 +9,9 @@ O relatório completo está em `docs/Relatorio_Campeonato_Amador.pdf`.
 - **Python 3.12 ou mais novo** (o Django 6.1 não funciona em versões anteriores). Para conferir: `python --version`
 
 ## Como executar (Windows)
-
+```
+git clone https://github.com/InMacz/campeonatoAmador.git
+```
 Dentro da pasta do projeto:
 
 ```
