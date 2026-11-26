@@ -1,0 +1,10 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Tem certeza que deseja excluir o gol {{ gol }} da partida {{ gol.partida }}?</p>
+        <button type="submit" class="botao-perigo">{{ btn }}</button>
+    </form>
+    <a href="{% url 'detalhePartida' gol.partida.pk %}">Cancelar</a>
+{% endblock %}

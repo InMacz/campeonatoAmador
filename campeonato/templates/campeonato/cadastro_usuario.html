@@ -1,0 +1,11 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    <p class="aviso">Contas criadas aqui são do nível <strong>user</strong>: podem ver as partidas, times, jogadores e árbitros, mas não podem cadastrar, editar ou excluir.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">{{ btn }}</button>
+    </form>
+    <p>Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>
+{% endblock %}

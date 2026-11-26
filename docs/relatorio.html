@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Relatório — Campeonato Amador</title>
+<style>
+  @page { size: A4; margin: 22mm 20mm 20mm 20mm; }
+  :root {
+    --tinta: #1f2328; --suave: #57606a; --borda: #d0d7de; --fundo: #f6f8fa;
+    --primaria: #4f46e5; --primaria-clara: #eef0ff; --ok: #15803d; --ok-claro: #e8f6ec;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; color: var(--tinta); font-size: 10.5pt; line-height: 1.55; margin: 0; background: #fff; }
+  h1, h2, h3 { line-height: 1.25; color: var(--tinta); }
+  h2 { font-size: 15pt; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--primaria); break-after: avoid; }
+  h3 { font-size: 11.5pt; margin: 18px 0 6px; break-after: avoid; }
+  p { margin: 0 0 8px; text-align: justify; }
+  section { margin-bottom: 22px; }
+  .quebra { break-before: page; }
+  code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 9pt; background: var(--fundo); padding: 1px 4px; border-radius: 3px; }
+  pre { font-family: Consolas, "Cascadia Mono", monospace; font-size: 8.4pt; line-height: 1.45; background: var(--fundo); border: 1px solid var(--borda); border-left: 3px solid var(--primaria); border-radius: 4px; padding: 9px 12px; margin: 6px 0 12px; white-space: pre-wrap; break-inside: avoid; }
+  pre .c { color: #6e7781; }
+  pre .k { color: #8250df; }
+  pre .s { color: #0a3069; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: 9.3pt; break-inside: avoid; }
+  th { background: var(--primaria-clara); text-align: left; font-weight: 600; }
+  th, td { border: 1px solid var(--borda); padding: 5px 8px; vertical-align: top; }
+  td code { font-size: 8.4pt; }
+  .ok { color: var(--ok); font-weight: 700; white-space: nowrap; }
+  .nao { color: #b42318; font-weight: 700; }
+  .centro { text-align: center; }
+  figure { margin: 8px 0 14px; break-inside: avoid; }
+  figure img { width: 100%; border: 1px solid var(--borda); border-radius: 4px; display: block; }
+  figcaption { font-size: 8.8pt; color: var(--suave); text-align: center; margin-top: 4px; }
+  .lado { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .nota { background: var(--primaria-clara); border-left: 3px solid var(--primaria); padding: 8px 12px; border-radius: 4px; margin: 8px 0 12px; font-size: 9.8pt; break-inside: avoid; }
+  ul, ol { margin: 4px 0 10px; padding-left: 20px; }
+  li { margin: 2px 0; }
+
+  /* capa */
+  .capa { height: 253mm; display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 6mm 0; }
+  .capa .inst { font-size: 12pt; font-weight: 600; letter-spacing: .02em; }
+  .capa .curso { font-size: 10.5pt; color: var(--suave); margin-top: 4px; }
+  .capa .meio { margin-top: -10mm; }
+  .capa .titulo { font-size: 28pt; font-weight: 700; margin: 0; color: var(--tinta); }
+  .capa .sub { font-size: 13pt; color: var(--suave); margin-top: 8px; }
+  .capa .faixa { width: 60px; height: 4px; background: var(--primaria); margin: 18px auto; border-radius: 2px; }
+  .capa .tec { font-size: 10pt; color: var(--suave); }
+  .capa .autor { font-size: 12pt; }
+  .capa .rodape { font-size: 10.5pt; }
+
+  /* sumário */
+  .sumario ol { list-style: none; padding: 0; counter-reset: s; }
+  .sumario li { display: flex; padding: 5px 0; border-bottom: 1px dotted var(--borda); font-size: 10.5pt; }
+  .sumario li span:first-child { width: 28px; color: var(--primaria); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ============================ CAPA ============================ -->
+<div class="capa">
+  <div>
+    <div class="inst">UNISALESIANO — Centro Universitário Católico Salesiano Auxilium</div>
+    <div class="curso">Tecnologia em Análise e Desenvolvimento de Sistemas · 4º termo</div>
+  </div>
+  <div class="meio">
+    <p class="titulo" style="text-align:center">Campeonato Amador</p>
+    <div class="sub">Sistema web de gerenciamento de um campeonato de futebol amador</div>
+    <div class="faixa"></div>
+    <div class="sub" style="font-size:12pt">Relatório do projeto</div>
+    <div class="tec" style="margin-top:14px">Python · Django 6.1 · SQLite · Class-Based Views</div>
+  </div>
+  <div>
+    <div class="autor">William</div>
+    <div class="rodape" style="margin-top:22mm">Araçatuba — SP<br>Novembro de 2026</div>
+  </div>
+</div>
+
+<!-- ============================ SUMÁRIO ============================ -->
+<section class="quebra sumario">
+  <h2>Sumário</h2>
+  <ol>
+    <li><span>1</span><span>Introdução e objetivo</span></li>
+    <li><span>2</span><span>Tecnologias utilizadas</span></li>
+    <li><span>3</span><span>Requisitos do trabalho e como foram atendidos</span></li>
+    <li><span>4</span><span>Modelagem de dados — relacionamentos 1:N e N:N</span></li>
+    <li><span>5</span><span>Views baseadas em classe</span></li>
+    <li><span>6</span><span>Níveis de acesso: admin e user</span></li>
+    <li><span>7</span><span>Filtros</span></li>
+    <li><span>8</span><span>Regras de negócio e validações</span></li>
+    <li><span>9</span><span>Testes automatizados</span></li>
+    <li><span>10</span><span>Estrutura do projeto e como executar</span></li>
+    <li><span>11</span><span>Conclusão</span></li>
+  </ol>
+</section>
+
+<!-- ============================ 1 ============================ -->
+<section>
+  <h2>1. Introdução e objetivo</h2>
+  <p>O <strong>Campeonato Amador</strong> é uma aplicação web desenvolvida em Django para organizar um campeonato de futebol de várzea. O sistema permite cadastrar <strong>times</strong>, <strong>jogadores</strong>, <strong>árbitros</strong> e <strong>partidas</strong>, e registrar os <strong>gols</strong> de cada partida (quem marcou e em que minuto). A partir dos gols lançados o sistema calcula automaticamente o placar de cada jogo e o total de gols de cada jogador.</p>
+  <p>O objetivo do trabalho é aplicar na prática os conceitos vistos na disciplina: modelagem com relacionamentos <strong>1:N</strong> e <strong>N:N</strong>, <strong>filtros</strong> de pesquisa, controle de acesso com <strong>dois níveis de usuário</strong> (admin e user) e o uso de <strong>views baseadas em classe</strong> (<em>Class-Based Views</em>) do Django.</p>
+</section>
+
+<!-- ============================ 2 ============================ -->
+<section>
+  <h2>2. Tecnologias utilizadas</h2>
+  <table>
+    <tr><th style="width:28%">Tecnologia</th><th>Uso no projeto</th></tr>
+    <tr><td>Python 3</td><td>Linguagem do back-end.</td></tr>
+    <tr><td>Django 6.1</td><td>Framework web: ORM, views genéricas, autenticação (<code>django.contrib.auth</code>), templates e painel <code>/admin</code>.</td></tr>
+    <tr><td>SQLite</td><td>Banco de dados (arquivo <code>db.sqlite3</code>), padrão do Django para desenvolvimento.</td></tr>
+    <tr><td>HTML + CSS</td><td>Templates com herança (<code>base.html</code>) e uma folha de estilo própria com tema claro/escuro automático.</td></tr>
+    <tr><td>unittest (Django TestCase)</td><td>16 testes automatizados que verificam relacionamentos, filtros e permissões.</td></tr>
+  </table>
+</section>
+
+<!-- ============================ 3 ============================ -->
+<section class="quebra">
+  <h2>3. Requisitos do trabalho e como foram atendidos</h2>
+  <table>
+    <tr><th style="width:24%">Requisito</th><th style="width:9%" class="centro">Status</th><th>Como foi atendido</th><th style="width:22%">Onde está</th></tr>
+    <tr>
+      <td>Relacionamento 1:N e N:N</td><td class="centro ok">Atendido</td>
+      <td>Quatro relações 1:N com <code>ForeignKey</code> (Time→Jogador, Time→Partida como casa e como visitante, Árbitro→Partida) e uma relação N:N Partida↔Jogador com <code>ManyToManyField(through="Gol")</code>.</td>
+      <td><code>campeonato/models.py</code></td>
+    </tr>
+    <tr>
+      <td>Deve possuir filtros</td><td class="centro ok">Atendido</td>
+      <td>As quatro listagens têm filtros via <code>GET</code>: busca por texto em todas, e filtros por <em>time</em> e <em>árbitro</em> (partidas) e por <em>time</em> e <em>posição</em> (jogadores). Os filtros podem ser combinados. O <code>/admin</code> também tem <code>list_filter</code> e <code>search_fields</code>.</td>
+      <td><code>views.py</code> (<code>get_queryset</code>), templates <code>*_lista.html</code>, <code>admin.py</code></td>
+    </tr>
+    <tr>
+      <td>Acesso em dois níveis de usuário (admin, user)</td><td class="centro ok">Atendido</td>
+      <td>Todas as páginas exigem login (<code>LoginRequiredMixin</code>). O <strong>user</strong> só visualiza; o <strong>admin</strong> (<code>is_staff</code>) também cadastra, edita, exclui e lança gols (<code>AdminRequiredMixin</code>). Telas de login, logout e criação de conta. Botões de admin ficam ocultos para o user e o acesso direto pela URL devolve <strong>403</strong>.</td>
+      <td><code>views.py</code>, <code>urls.py</code>, <code>base.html</code>, <code>403.html</code>, <code>settings.py</code></td>
+    </tr>
+    <tr>
+      <td>Views baseadas em classe</td><td class="centro ok">Atendido</td>
+      <td>As 19 views do sistema (mais a de cadastro de usuário) são classes que herdam de <code>ListView</code>, <code>DetailView</code>, <code>CreateView</code>, <code>UpdateView</code> e <code>DeleteView</code>. Login e logout usam <code>LoginView</code>/<code>LogoutView</code> do Django.</td>
+      <td><code>campeonato/views.py</code>, <code>campeonato/urls.py</code></td>
+    </tr>
+    <tr>
+      <td>Relatório sobre o projeto</td><td class="centro ok">Atendido</td>
+      <td>Este documento.</td>
+      <td><code>docs/</code></td>
+    </tr>
+  </table>
+</section>
+
+<!-- ============================ 4 ============================ -->
+<section class="quebra">
+  <h2>4. Modelagem de dados — relacionamentos 1:N e N:N</h2>
+  <p>O sistema tem cinco tabelas: <code>Time</code>, <code>Jogador</code>, <code>Arbitro</code>, <code>Partida</code> e <code>Gol</code>. O diagrama abaixo mostra os campos e como as tabelas se ligam.</p>
+
+  <figure>
+  <svg viewBox="0 0 720 410" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif" font-size="11.5">
+    <defs>
+      <style>
+        .cx { fill: #fff; stroke: #4f46e5; stroke-width: 1.4; }
+        .cab { fill: #4f46e5; }
+        .tcab { fill: #fff; font-weight: 700; font-size: 12.5px; }
+        .pk { font-weight: 700; fill: #1f2328; }
+        .fk { fill: #4f46e5; }
+        .cp { fill: #1f2328; }
+        .tag { fill: #8c959f; font-size: 9.5px; }
+        .lig { stroke: #57606a; stroke-width: 1.4; fill: none; }
+        .card { fill: #1f2328; font-weight: 700; font-size: 12px; }
+        .rot { fill: #57606a; font-size: 10px; font-style: italic; }
+      </style>
+    </defs>
+
+    <!-- área N:N -->
+
+    <!-- TIME -->
+    <rect class="cx" x="20" y="20" width="170" height="96" rx="6"/>
+    <path class="cab" d="M26 20 h158 a6 6 0 0 1 6 6 v22 h-170 v-22 a6 6 0 0 1 6 -6z"/>
+    <text class="tcab" x="32" y="39">Time</text>
+    <text class="pk" x="32" y="63">id</text><text class="tag" x="160" y="63">PK</text>
+    <text class="cp" x="32" y="83">nome <tspan class="tag">(único)</tspan></text>
+    <text class="cp" x="32" y="103">bairro</text>
+
+    <!-- PARTIDA -->
+    <rect class="cx" x="275" y="20" width="180" height="156" rx="6"/>
+    <path class="cab" d="M281 20 h168 a6 6 0 0 1 6 6 v22 h-180 v-22 a6 6 0 0 1 6 -6z"/>
+    <text class="tcab" x="287" y="39">Partida</text>
+    <text class="pk" x="287" y="63">id</text><text class="tag" x="425" y="63">PK</text>
+    <text class="fk" x="287" y="83">timeCasa_id</text><text class="tag" x="425" y="83">FK</text>
+    <text class="fk" x="287" y="103">timeFora_id</text><text class="tag" x="425" y="103">FK</text>
+    <text class="fk" x="287" y="123">arbitro_id <tspan class="tag">(pode ser nulo)</tspan></text><text class="tag" x="425" y="123">FK</text>
+    <text class="cp" x="287" y="143">data</text>
+    <text class="cp" x="287" y="163">local</text>
+
+    <!-- ARBITRO -->
+    <rect class="cx" x="540" y="60" width="160" height="96" rx="6"/>
+    <path class="cab" d="M546 60 h148 a6 6 0 0 1 6 6 v22 h-160 v-22 a6 6 0 0 1 6 -6z"/>
+    <text class="tcab" x="552" y="79">Arbitro</text>
+    <text class="pk" x="552" y="103">id</text><text class="tag" x="672" y="103">PK</text>
+    <text class="cp" x="552" y="123">nome</text>
+    <text class="cp" x="552" y="143">telefone</text>
+
+    <!-- JOGADOR -->
+    <rect class="cx" x="20" y="250" width="170" height="136" rx="6"/>
+    <path class="cab" d="M26 250 h158 a6 6 0 0 1 6 6 v22 h-170 v-22 a6 6 0 0 1 6 -6z"/>
+    <text class="tcab" x="32" y="269">Jogador</text>
+    <text class="pk" x="32" y="293">id</text><text class="tag" x="160" y="293">PK</text>
+    <text class="cp" x="32" y="313">nome</text>
+    <text class="cp" x="32" y="333">posicao</text>
+    <text class="cp" x="32" y="353">numeroCamisa</text>
+    <text class="fk" x="32" y="373">time_id</text><text class="tag" x="160" y="373">FK</text>
+
+    <!-- GOL -->
+    <rect class="cx" x="275" y="250" width="180" height="116" rx="6" style="stroke-dasharray:0"/>
+    <path class="cab" d="M281 250 h168 a6 6 0 0 1 6 6 v22 h-180 v-22 a6 6 0 0 1 6 -6z"/>
+    <text class="tcab" x="287" y="269">Gol</text>
+    <text class="pk" x="287" y="293">id</text><text class="tag" x="425" y="293">PK</text>
+    <text class="fk" x="287" y="313">partida_id</text><text class="tag" x="425" y="313">FK</text>
+    <text class="fk" x="287" y="333">jogador_id</text><text class="tag" x="425" y="333">FK</text>
+    <text class="cp" x="287" y="353">minuto</text>
+
+    <!-- Time 1:N Jogador -->
+    <line class="lig" x1="105" y1="116" x2="105" y2="250"/>
+    <text class="card" x="111" y="132">1</text><text class="card" x="111" y="244">N</text>
+    <text class="rot" x="111" y="188">time.jogadores</text>
+
+    <!-- Time 1:N Partida (casa e fora) -->
+    <line class="lig" x1="190" y1="79" x2="275" y2="79"/>
+    <line class="lig" x1="190" y1="99" x2="275" y2="99"/>
+    <text class="card" x="195" y="74">1</text><text class="card" x="263" y="74">N</text>
+    <text class="rot" x="208" y="74">casa</text>
+    <text class="rot" x="210" y="114">fora</text>
+
+    <!-- Arbitro 1:N Partida -->
+    <line class="lig" x1="455" y1="119" x2="540" y2="119"/>
+    <text class="card" x="528" y="114">1</text><text class="card" x="460" y="114">N</text>
+
+    <!-- Partida 1:N Gol -->
+    <line class="lig" x1="365" y1="176" x2="365" y2="250"/>
+    <text class="card" x="371" y="192">1</text><text class="card" x="371" y="244">N</text>
+
+    <!-- Jogador 1:N Gol -->
+    <line class="lig" x1="190" y1="329" x2="275" y2="329"/>
+    <text class="card" x="196" y="324">1</text><text class="card" x="263" y="324">N</text>
+
+    <!-- explicação N:N -->
+    <rect x="478" y="236" width="226" height="130" rx="8" fill="#eef0ff" stroke="#4f46e5" stroke-dasharray="4 3"/>
+    <text x="490" y="258" font-weight="700" fill="#4f46e5" font-size="12.5">N:N  Partida ↔ Jogador</text>
+    <text x="490" y="280" fill="#1f2328" font-size="10.5">Uma partida tem gols de vários</text>
+    <text x="490" y="295" fill="#1f2328" font-size="10.5">jogadores e um jogador marca gols</text>
+    <text x="490" y="310" fill="#1f2328" font-size="10.5">em várias partidas.</text>
+    <text x="490" y="332" fill="#1f2328" font-size="10.5"><tspan font-weight="700">Gol</tspan> é a tabela intermediária</text>
+    <text x="490" y="347" fill="#1f2328" font-size="10.5">(through) e guarda o <tspan font-weight="700">minuto</tspan>.</text>
+    <line x1="455" y1="300" x2="478" y2="300" stroke="#4f46e5" stroke-dasharray="4 3" stroke-width="1.2"/>
+  </svg>
+  <figcaption>Figura 1 — Diagrama entidade-relacionamento (PK = chave primária, FK = chave estrangeira)</figcaption>
+  </figure>
+
+  <h3>4.1 Relacionamentos 1:N</h3>
+  <table>
+    <tr><th>Relação</th><th>Campo</th><th>Significado</th><th>Ao excluir o "1"</th></tr>
+    <tr><td>Time 1:N Jogador</td><td><code>Jogador.time</code></td><td>Um time tem vários jogadores; cada jogador é de um time só.</td><td><code>CASCADE</code> — exclui os jogadores</td></tr>
+    <tr><td>Time 1:N Partida (casa)</td><td><code>Partida.timeCasa</code></td><td>Um time joga várias partidas em casa.</td><td><code>CASCADE</code></td></tr>
+    <tr><td>Time 1:N Partida (fora)</td><td><code>Partida.timeFora</code></td><td>Um time joga várias partidas como visitante.</td><td><code>CASCADE</code></td></tr>
+    <tr><td>Árbitro 1:N Partida</td><td><code>Partida.arbitro</code></td><td>Um árbitro apita várias partidas; cada partida tem um árbitro.</td><td><code>SET_NULL</code> — a partida fica sem árbitro</td></tr>
+  </table>
+  <p>Como <code>Partida</code> tem duas chaves estrangeiras para a mesma tabela <code>Time</code>, cada uma recebe um <code>related_name</code> diferente (<code>partidasCasa</code> e <code>partidasFora</code>); sem isso o Django não saberia diferenciar <code>time.partida_set</code>.</p>
+
+  <h3>4.2 Relacionamento N:N</h3>
+  <p>A relação N:N entre <strong>Partida</strong> e <strong>Jogador</strong> representa "quais jogadores marcaram em quais partidas". Como era preciso guardar uma informação extra — o <strong>minuto</strong> do gol — foi usada uma tabela intermediária explícita (<code>Gol</code>) com o parâmetro <code>through</code>:</p>
+<pre><span class="k">class</span> Partida(models.Model):
+    ...
+    <span class="c"># N:N — uma partida tem gols de vários jogadores, e um jogador marca gols em várias partidas.</span>
+    <span class="c"># o through diz que a tabela do meio é a Gol, assim conseguimos guardar o minuto de cada gol</span>
+    jogadores = models.ManyToManyField(Jogador, through=<span class="s">"Gol"</span>, related_name=<span class="s">"partidas"</span>)
+
+<span class="k">class</span> Gol(models.Model):
+    <span class="c"># tabela do meio da relação N:N entre Partida e Jogador</span>
+    partida = models.ForeignKey(Partida, on_delete=models.CASCADE, related_name=<span class="s">"gols"</span>)
+    jogador = models.ForeignKey(Jogador, on_delete=models.CASCADE, related_name=<span class="s">"gols"</span>)
+    minuto = models.PositiveIntegerField()</pre>
+  <p>Com isso é possível navegar nos dois sentidos: <code>partida.jogadores.all()</code> devolve os jogadores que marcaram na partida, e <code>jogador.partidas.all()</code> devolve as partidas em que o jogador marcou. O placar é calculado contando os gols de cada lado:</p>
+<pre><span class="k">def</span> golsCasa(self):
+    <span class="k">return</span> self.gols.filter(jogador__time=self.timeCasa).count()  <span class="c"># conta só os gols de jogadores do time da casa</span></pre>
+</section>
+
+<!-- ============================ 5 ============================ -->
+<section>
+  <h2>5. Views baseadas em classe</h2>
+  <p>Todas as views do sistema foram escritas como classes que herdam das <strong>views genéricas</strong> do Django. Cada view genérica já sabe fazer o trabalho repetitivo (buscar o objeto, montar o formulário, validar, salvar e redirecionar), e a classe só informa o que muda: o <code>model</code>, o <code>form_class</code>, o <code>template_name</code> e o <code>success_url</code>. Isso reduziu bastante o código em relação às views em função, que repetiam o mesmo bloco <code>if request.method == "POST"</code> em todas as telas.</p>
+<pre><span class="k">class</span> TimeCreateView(AdminRequiredMixin, CreateView):
+    model = Time
+    form_class = TimeForm
+    template_name = <span class="s">"campeonato/time_form.html"</span>
+    success_url = reverse_lazy(<span class="s">"listaTimes"</span>)
+    extra_context = {<span class="s">"tituloPagina"</span>: <span class="s">"Cadastrar Time"</span>, <span class="s">"h1"</span>: <span class="s">"Cadastrar Time"</span>, <span class="s">"btn"</span>: <span class="s">"Cadastrar"</span>}
+
+<span class="c"># urls.py — toda view baseada em classe é ligada na URL com .as_view()</span>
+path(<span class="s">"times/cadastrar/"</span>, TimeCreateView.as_view(), name=<span class="s">"cadastrarTime"</span>),</pre>
+
+  <h3>5.1 Mapa das views</h3>
+  <table>
+    <tr><th>Entidade</th><th>Listar</th><th>Detalhe</th><th>Cadastrar</th><th>Editar</th><th>Excluir</th></tr>
+    <tr><td>Partida</td><td><code>PartidaListView</code></td><td><code>PartidaDetailView</code></td><td><code>PartidaCreateView</code></td><td><code>PartidaUpdateView</code></td><td><code>PartidaDeleteView</code></td></tr>
+    <tr><td>Gol</td><td>—</td><td>—</td><td><code>GolCreateView</code></td><td>—</td><td><code>GolDeleteView</code></td></tr>
+    <tr><td>Time</td><td><code>TimeListView</code></td><td>—</td><td><code>TimeCreateView</code></td><td><code>TimeUpdateView</code></td><td><code>TimeDeleteView</code></td></tr>
+    <tr><td>Jogador</td><td><code>JogadorListView</code></td><td>—</td><td><code>JogadorCreateView</code></td><td><code>JogadorUpdateView</code></td><td><code>JogadorDeleteView</code></td></tr>
+    <tr><td>Árbitro</td><td><code>ArbitroListView</code></td><td>—</td><td><code>ArbitroCreateView</code></td><td><code>ArbitroUpdateView</code></td><td><code>ArbitroDeleteView</code></td></tr>
+    <tr><td>Usuário</td><td colspan="2"><code>LoginView</code> / <code>LogoutView</code> (prontas do Django)</td><td><code>CadastroUsuarioView</code></td><td>—</td><td>—</td></tr>
+  </table>
+  <p>Herança usada: <code>ListView</code> (listas), <code>DetailView</code> (detalhe), <code>CreateView</code>, <code>UpdateView</code> e <code>DeleteView</code> (formulários), além de <code>RedirectView</code> para a página inicial.</p>
+
+  <h3>5.2 Métodos sobrescritos</h3>
+  <p>Quando o comportamento padrão não basta, a classe sobrescreve apenas o método necessário:</p>
+  <ul>
+    <li><code>get_queryset()</code> — nas listas, aplica os filtros recebidos pela URL (seção 7).</li>
+    <li><code>get_context_data()</code> — nas listas, envia dados extras ao template, como as opções dos selects de filtro.</li>
+    <li><code>form_valid()</code> — em <code>GolCreateView</code>, liga o gol à partida da URL antes de salvar.</li>
+    <li><code>get_form()</code> — em <code>GolCreateView</code>, limita o campo "jogador" aos jogadores dos dois times da partida.</li>
+    <li><code>get_success_url()</code> — nas views de partida e de gol, volta para a tela de detalhe da partida depois de salvar ou excluir.</li>
+    <li><code>test_func()</code> — no <code>AdminRequiredMixin</code>, define quem é admin (seção 6).</li>
+  </ul>
+</section>
+
+<!-- ============================ 6 ============================ -->
+<section class="quebra">
+  <h2>6. Níveis de acesso: admin e user</h2>
+  <p>O controle de acesso usa o sistema de autenticação do próprio Django (<code>django.contrib.auth</code>) e dois <em>mixins</em> — classes que são "misturadas" às views pela herança múltipla:</p>
+  <table>
+    <tr><th style="width:16%">Nível</th><th style="width:30%">Quem é</th><th>O que pode fazer</th><th style="width:24%">Mixin usado</th></tr>
+    <tr><td><strong>Visitante</strong></td><td>Não está logado</td><td>Só acessa as telas de <em>login</em> e <em>criar conta</em>. Qualquer outra URL redireciona para o login.</td><td>—</td></tr>
+    <tr><td><strong>user</strong></td><td>Usuário logado comum (<code>is_staff = False</code>). Toda conta criada pela tela "Criar conta" é deste nível.</td><td>Ver partidas (lista e detalhe), times, jogadores e árbitros, e usar todos os filtros.</td><td><code>LoginRequiredMixin</code></td></tr>
+    <tr><td><strong>admin</strong></td><td>Usuário com <code>is_staff = True</code></td><td>Tudo do user, mais cadastrar, editar e excluir todas as entidades, lançar gols e acessar o painel <code>/admin</code>.</td><td><code>AdminRequiredMixin</code></td></tr>
+  </table>
+<pre><span class="k">class</span> AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    <span class="c"># LoginRequiredMixin: quem não está logado é mandado para a tela de login</span>
+    <span class="c"># UserPassesTestMixin: quem está logado mas não passa no test_func recebe erro 403 (acesso negado)</span>
+    <span class="k">def</span> test_func(self):
+        <span class="k">return</span> self.request.user.is_staff
+
+<span class="k">class</span> PartidaListView(LoginRequiredMixin, ListView): ...      <span class="c"># user e admin</span>
+<span class="k">class</span> PartidaCreateView(AdminRequiredMixin, CreateView): ...  <span class="c"># só admin</span></pre>
+  <p>A proteção é feita em duas camadas:</p>
+  <ol>
+    <li><strong>No servidor (segurança de verdade):</strong> os mixins verificam o usuário antes de executar a view. Mesmo que um user digite a URL de cadastro ou envie um <code>POST</code> de exclusão manualmente, o Django responde <strong>403 — Acesso negado</strong> (página <code>templates/403.html</code>) e nada é alterado.</li>
+    <li><strong>Na interface (usabilidade):</strong> os templates usam <code>{% if user.is_staff %}</code> para esconder do user os links "Cadastrar", "Editar", "Excluir" e o formulário de gols. O menu mostra o nome do usuário logado e o seu nível.</li>
+  </ol>
+  <p>As configurações <code>LOGIN_URL</code>, <code>LOGIN_REDIRECT_URL</code> e <code>LOGOUT_REDIRECT_URL</code> em <code>settings.py</code> definem para onde o usuário vai antes e depois do login. O logout é feito por um formulário <code>POST</code>, como exige o Django desde a versão 5.</p>
+
+  <div class="lado">
+    <figure><img src="img/02_user_partidas.png"><figcaption>Figura 2 — Lista de partidas vista pelo <strong>user</strong>: só o botão "Ver"</figcaption></figure>
+    <figure><img src="img/04_admin_partidas.png"><figcaption>Figura 3 — A mesma lista vista pelo <strong>admin</strong>: menus de cadastro, "Editar" e "Excluir"</figcaption></figure>
+  </div>
+  <div class="lado">
+    <figure><img src="img/01_login.png"><figcaption>Figura 4 — Tela de login (visitante é redirecionado para cá)</figcaption></figure>
+    <figure><img src="img/03_user_403.png"><figcaption>Figura 5 — User tentando abrir <code>/partidas/cadastrar/</code>: acesso negado (403)</figcaption></figure>
+  </div>
+</section>
+
+<!-- ============================ 7 ============================ -->
+<section>
+  <h2>7. Filtros</h2>
+  <p>Os filtros usam formulários com <code>method="get"</code>: os valores escolhidos vão para a URL (por exemplo <code>/jogadores/?time=2&amp;posicao=atacante</code>), o que permite salvar ou compartilhar o link de uma pesquisa. Na view, o método <code>get_queryset()</code> lê esses valores em <code>self.request.GET</code> e vai aplicando <code>.filter()</code> apenas nos campos preenchidos, por isso os filtros podem ser combinados.</p>
+  <table>
+    <tr><th style="width:18%">Tela</th><th style="width:30%">Filtro</th><th>Como funciona</th></tr>
+    <tr><td rowspan="3">Partidas</td><td>Busca por texto</td><td><code>Q(timeCasa__nome__icontains) | Q(timeFora__nome__icontains) | Q(local__icontains)</code></td></tr>
+    <tr><td>Time (select)</td><td>Partidas em que o time jogou em casa <strong>ou</strong> fora: <code>Q(timeCasa_id=time) | Q(timeFora_id=time)</code></td></tr>
+    <tr><td>Árbitro (select)</td><td><code>filter(arbitro_id=arbitro)</code></td></tr>
+    <tr><td rowspan="3">Jogadores</td><td>Busca por texto</td><td>Nome do jogador ou nome do time (<code>time__nome__icontains</code>)</td></tr>
+    <tr><td>Time (select)</td><td><code>filter(time_id=time)</code></td></tr>
+    <tr><td>Posição (select)</td><td><code>filter(posicao=posicao)</code> — opções vêm de <code>Jogador.POSICOES</code></td></tr>
+    <tr><td>Times</td><td>Busca por texto</td><td>Nome ou bairro</td></tr>
+    <tr><td>Árbitros</td><td>Busca por texto</td><td>Nome ou telefone</td></tr>
+    <tr><td>Painel /admin</td><td><code>list_filter</code>, <code>search_fields</code></td><td>Filtros laterais por time, posição, árbitro e data.</td></tr>
+  </table>
+<pre><span class="k">def</span> get_queryset(self):
+    jogadores = Jogador.objects.select_related(<span class="s">"time"</span>).order_by(<span class="s">"nome"</span>)
+    busca = self.request.GET.get(<span class="s">"busca"</span>, <span class="s">""</span>)
+    time = self.request.GET.get(<span class="s">"time"</span>, <span class="s">""</span>)
+    posicao = self.request.GET.get(<span class="s">"posicao"</span>, <span class="s">""</span>)
+    <span class="k">if</span> busca:
+        jogadores = jogadores.filter(Q(nome__icontains=busca) | Q(time__nome__icontains=busca))
+    <span class="k">if</span> time:
+        jogadores = jogadores.filter(time_id=time)
+    <span class="k">if</span> posicao:
+        jogadores = jogadores.filter(posicao=posicao)
+    <span class="k">return</span> jogadores</pre>
+  <p>Os filtros também foram usados para ligar as telas entre si: no card de um time, o botão <strong>"Ver jogadores"</strong> abre <code>/jogadores/?time=&lt;id&gt;</code>, e no card de um árbitro, <strong>"Ver partidas"</strong> abre <code>/partidas/?arbitro=&lt;id&gt;</code> — navegando pelos relacionamentos 1:N.</p>
+  <figure style="width:62%; margin-left:auto; margin-right:auto"><img src="img/05_filtro_jogadores.png"><figcaption>Figura 6 — Lista de jogadores filtrada pela posição "Atacante"</figcaption></figure>
+</section>
+
+<!-- ============================ 8 ============================ -->
+<section>
+  <h2>8. Regras de negócio e validações</h2>
+  <ul>
+    <li><strong>Um time não joga contra ele mesmo:</strong> o método <code>clean()</code> do <code>PartidaForm</code> recusa a partida se o time da casa e o visitante forem iguais.</li>
+    <li><strong>Só jogadores da partida podem marcar:</strong> o campo "jogador" do formulário de gol é limitado aos jogadores dos dois times da partida (método <code>get_form()</code> da <code>GolCreateView</code>). Se alguém enviar o id de um jogador de outro time, o formulário fica inválido.</li>
+    <li><strong>Nome de time único:</strong> <code>unique=True</code> no campo <code>Time.nome</code>.</li>
+    <li><strong>Placar calculado:</strong> o placar não é digitado, é calculado a partir dos gols (<code>golsCasa()</code>, <code>golsFora()</code>, <code>placar()</code>), evitando inconsistência.</li>
+    <li><strong>Gols na tela da partida:</strong> no detalhe da partida o admin adiciona um gol (<code>GolCreateView</code>) ou exclui um gol lançado errado (<code>GolDeleteView</code>); o placar é recalculado na hora.</li>
+    <li><strong>Exclusões:</strong> excluir um time remove seus jogadores e partidas (<code>CASCADE</code>); excluir um árbitro mantém as partidas, só sem árbitro (<code>SET_NULL</code>). As telas de confirmação avisam o usuário sobre isso.</li>
+  </ul>
+  <figure style="width:62%; margin-left:auto; margin-right:auto"><img src="img/06_detalhe.png"><figcaption>Figura 7 — Detalhe da partida (admin): gols em ordem de minuto, com os botões de adicionar e excluir gol</figcaption></figure>
+</section>
+
+<!-- ============================ 9 ============================ -->
+<section>
+  <h2>9. Testes automatizados</h2>
+  <p>O arquivo <code>campeonato/tests.py</code> contém <strong>16 testes</strong> que comprovam os requisitos. Eles rodam com <code>python manage.py test</code> num banco de dados temporário, sem afetar os dados reais. Resultado da última execução: <span class="ok">Ran 16 tests — OK</span>.</p>
+  <table>
+    <tr><th style="width:24%">Grupo</th><th>O que é verificado</th></tr>
+    <tr><td><code>RelacionamentosTeste</code></td><td>Navegação 1:N (<code>time.jogadores</code>, <code>arbitro.partidas</code>) e N:N (<code>partida.jogadores</code>, <code>jogador.partidas</code>); cálculo do placar.</td></tr>
+    <tr><td><code>AcessoTeste</code></td><td>Visitante é redirecionado ao login; user consegue ver todas as listas e o detalhe; user recebe 403 ao tentar cadastrar, editar, excluir ou lançar gol (inclusive via <code>POST</code> direto); user não vê os botões de admin; admin consegue cadastrar, editar e excluir; conta criada pela tela de cadastro é do nível user.</td></tr>
+    <tr><td><code>PartidaGolTeste</code></td><td>Lançar gol; recusar gol de jogador de outro time; recusar time contra ele mesmo; editar partida; excluir gol (o placar muda).</td></tr>
+    <tr><td><code>FiltrosTeste</code></td><td>Filtros de partida (time, árbitro, busca), de jogador (posição, time e combinados) e buscas de time e árbitro.</td></tr>
+  </table>
+<pre>&gt; python manage.py test campeonato
+Found 16 test(s).
+System check identified no issues (0 silenced).
+................
+----------------------------------------------------------------------
+Ran 16 tests in 10.979s
+
+OK</pre>
+</section>
+
+<!-- ============================ 10 ============================ -->
+<section>
+  <h2>10. Estrutura do projeto e como executar</h2>
+<pre>campeonatoAmador/
+├── config/                  <span class="c"># configurações do projeto (settings.py, urls.py)</span>
+├── campeonato/              <span class="c"># app principal</span>
+│   ├── models.py            <span class="c"># Time, Jogador, Arbitro, Partida, Gol</span>
+│   ├── views.py             <span class="c"># views baseadas em classe + AdminRequiredMixin</span>
+│   ├── urls.py              <span class="c"># rotas (.as_view()), login, logout, cadastro</span>
+│   ├── forms.py             <span class="c"># ModelForms e validação</span>
+│   ├── admin.py             <span class="c"># painel /admin com filtros e inlines</span>
+│   ├── tests.py             <span class="c"># 16 testes automatizados</span>
+│   ├── management/commands/criar_usuarios.py
+│   ├── templates/           <span class="c"># base.html, listas, formulários, login, 403</span>
+│   └── static/              <span class="c"># CSS</span>
+├── docs/                    <span class="c"># este relatório</span>
+├── manage.py
+└── requirements.txt</pre>
+  <h3>Passo a passo</h3>
+<pre>python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py criar_usuarios     <span class="c"># cria os usuários de exemplo</span>
+python manage.py runserver          <span class="c"># acessar http://127.0.0.1:8000</span></pre>
+  <table>
+    <tr><th>Usuário</th><th>Senha</th><th>Nível</th></tr>
+    <tr><td><code>admin</code></td><td><code>admin123</code></td><td>admin — pode tudo, inclusive o painel <code>/admin</code></td></tr>
+    <tr><td><code>usuario</code></td><td><code>usuario123</code></td><td>user — apenas visualiza</td></tr>
+  </table>
+  <div class="nota">As senhas acima são apenas para demonstração em ambiente local. Novos usuários do nível user podem ser criados pela tela <strong>Criar conta</strong>; para promover alguém a admin, basta marcar "Status de membro da equipe" (<code>is_staff</code>) no painel <code>/admin</code>.</div>
+</section>
+
+<!-- ============================ 11 ============================ -->
+<section>
+  <h2>11. Conclusão</h2>
+  <p>O projeto atende aos cinco requisitos propostos. A modelagem usa relações 1:N com <code>ForeignKey</code> e uma relação N:N com tabela intermediária (<code>through</code>), que permite guardar o minuto de cada gol e calcular placares e artilharia sem dados duplicados. As listagens oferecem filtros combináveis, o acesso é dividido entre <strong>admin</strong> e <strong>user</strong> com proteção no servidor e na interface, e todas as telas foram implementadas com views baseadas em classe.</p>
+  <p>A migração das views em função para classes mostrou na prática a vantagem das views genéricas do Django: o código ficou mais curto e padronizado, e regras como "precisa estar logado" ou "precisa ser admin" passaram a ser declaradas uma única vez nos mixins, em vez de repetidas em cada função. Os testes automatizados garantem que essas regras continuem funcionando caso o sistema seja alterado no futuro.</p>
+  <p>Como evoluções possíveis ficam: tabela de classificação (pontos, saldo de gols), ranking de artilheiros, paginação nas listas e cadastro de rodadas do campeonato.</p>
+</section>
+
+</body>
+</html>

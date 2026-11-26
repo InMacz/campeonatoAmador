@@ -1,0 +1,9 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">{{ btn }}</button>
+    </form>
+{% endblock %}

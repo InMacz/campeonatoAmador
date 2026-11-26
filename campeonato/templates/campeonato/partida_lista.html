@@ -1,0 +1,58 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    {# method="get" coloca os filtros na URL (?busca=...&time=...&arbitro=...), e a view lê com request.GET #}
+    <form method="get" class="form-busca">
+        <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar por time ou local">
+        <select name="time">
+            <option value="">Todos os times</option>
+            {% for t in times %}
+                {# stringformat:"s" transforma o pk em texto para comparar com o valor que veio da URL #}
+                <option value="{{ t.pk }}" {% if t.pk|stringformat:"s" == filtroTime %}selected{% endif %}>{{ t.nome }}</option>
+            {% endfor %}
+        </select>
+        <select name="arbitro">
+            <option value="">Todos os árbitros</option>
+            {% for a in arbitros %}
+                <option value="{{ a.pk }}" {% if a.pk|stringformat:"s" == filtroArbitro %}selected{% endif %}>{{ a.nome }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filtrar</button>
+        {% if filtrando %}<a href="{% url 'listaPartidas' %}">Limpar</a>{% endif %}
+    </form>
+
+    <div class="lista-cards">
+        {% for partida in partidas %}
+            <div class="card">
+                <h2><a href="{% url 'detalhePartida' partida.pk %}">{{ partida.placar }}</a></h2>
+                <p class="categoria">{{ partida.data|date:"d/m/Y H:i" }} - {{ partida.local }}</p>
+                <p class="categoria">Árbitro: {{ partida.arbitro|default:"não definido" }}</p>
+
+                {% if partida.gols.all %}
+                    <div class="card-secao">
+                        <strong>Gols</strong>
+                        <ul class="mini-lista">
+                            {% for gol in partida.gols.all %}
+                                <li>{{ gol }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="acoes">
+                    <a href="{% url 'detalhePartida' partida.pk %}">Ver</a>
+                    {% if user.is_staff %} {# editar e excluir só aparecem para o admin #}
+                        <a href="{% url 'editarPartida' partida.pk %}">Editar</a>
+                        <a href="{% url 'excluirPartida' partida.pk %}">Excluir</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            {% if filtrando %}
+                <p class="vazio">Nenhuma partida encontrada com esses filtros.</p>
+            {% else %}
+                <p class="vazio">Nenhuma partida cadastrada.</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

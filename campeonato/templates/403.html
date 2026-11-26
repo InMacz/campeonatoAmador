@@ -1,0 +1,13 @@
+{% extends "campeonato/base.html" %}
+{# o Django procura um template chamado 403.html quando o acesso é negado (PermissionDenied) #}
+
+{% block titulo_pagina %}Acesso negado{% endblock %}
+{% block h1 %}Acesso negado{% endblock %}
+
+{% block conteudo %}
+    <p class="vazio">
+        Esta ação é permitida apenas para usuários <strong>admin</strong>.<br>
+        Com o seu usuário você pode apenas visualizar as informações.
+    </p>
+    <p><a href="{% url 'listaPartidas' %}">Voltar para as partidas</a></p>
+{% endblock %}

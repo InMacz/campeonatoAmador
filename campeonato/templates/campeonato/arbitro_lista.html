@@ -1,0 +1,36 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    <form method="get" class="form-busca">
+        <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar por nome ou telefone">
+        <button type="submit">Pesquisar</button>
+        {% if busca %}<a href="{% url 'listaArbitros' %}">Limpar</a>{% endif %}
+    </form>
+
+    <div class="lista-cards">
+        {% for arbitro in arbitros %}
+            <div class="card">
+                <h2>{{ arbitro }}</h2>
+                <p class="categoria">Telefone: {{ arbitro.telefone }}</p>
+
+                <span class="status status-concluida">
+                    {{ arbitro.partidas.count }} partida{{ arbitro.partidas.count|pluralize }}
+                </span>
+
+                <div class="acoes">
+                    <a href="{% url 'listaPartidas' %}?arbitro={{ arbitro.pk }}">Ver partidas</a> {# reaproveita o filtro de árbitro da lista de partidas #}
+                    {% if user.is_staff %}
+                        <a href="{% url 'editarArbitro' arbitro.pk %}">Editar</a>
+                        <a href="{% url 'excluirArbitro' arbitro.pk %}">Excluir</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            {% if busca %}
+                <p class="vazio">Nenhum árbitro encontrado para "{{ busca }}".</p>
+            {% else %}
+                <p class="vazio">Nenhum árbitro cadastrado.</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

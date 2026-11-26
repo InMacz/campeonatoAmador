@@ -1,0 +1,31 @@
+{% extends 'campeonato/base.html' %}
+{# na DetailView o Django manda a partida para o template com o nome "partida" #}
+{% block titulo_pagina %}{{ partida }}{% endblock %}
+{% block h1 %}{{ partida.placar }}{% endblock %}
+
+{% block conteudo %}
+<p>Data: {{ partida.data | date:"d/m/Y H:i" }}</p>
+<p>Local: {{ partida.local }}</p>
+<p>Árbitro: {{ partida.arbitro|default:"não definido" }}</p>
+
+<h2>Gols</h2>
+<ol>
+{% for gol in partida.gols.all %} {# partida.gols = related_name da ForeignKey em Gol #}
+    <li>
+        {{ gol }} ({{ gol.jogador.time }})
+        {% if user.is_staff %}<span class="acoes"><a href="{% url 'excluirGol' gol.pk %}">Excluir</a></span>{% endif %}
+    </li>
+{% empty %}
+    <li>Nenhum gol.</li>
+{% endfor %}
+</ol>
+
+{% if user.is_staff %} {# só o admin pode lançar gols, editar e excluir #}
+    <p class="acoes">
+        <a href="{% url 'adicionarGol' partida.pk %}">Adicionar gol</a>
+        <a href="{% url 'editarPartida' partida.pk %}">Editar</a>
+        <a href="{% url 'excluirPartida' partida.pk %}">Excluir</a>
+    </p>
+{% endif %}
+<p><a href="{% url 'listaPartidas' %}">Voltar para as partidas</a></p>
+{% endblock %}

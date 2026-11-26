@@ -1,0 +1,36 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    <form method="get" class="form-busca">
+        <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar por nome ou bairro">
+        <button type="submit">Pesquisar</button>
+        {% if busca %}<a href="{% url 'listaTimes' %}">Limpar</a>{% endif %}
+    </form>
+
+    <div class="lista-cards">
+        {% for time in times %}
+            <div class="card">
+                <h2>{{ time }}</h2>
+                <p class="categoria">Bairro: {{ time.bairro }}</p>
+
+                <span class="status status-concluida">
+                    {{ time.jogadores.count }} jogador{{ time.jogadores.count|pluralize:"es" }}
+                </span>
+
+                <div class="acoes">
+                    <a href="{% url 'listaJogadores' %}?time={{ time.pk }}">Ver jogadores</a> {# reaproveita o filtro de time da lista de jogadores #}
+                    {% if user.is_staff %}
+                        <a href="{% url 'editarTime' time.pk %}">Editar</a>
+                        <a href="{% url 'excluirTime' time.pk %}">Excluir</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            {% if busca %}
+                <p class="vazio">Nenhum time encontrado para "{{ busca }}".</p>
+            {% else %}
+                <p class="vazio">Nenhum time cadastrado.</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

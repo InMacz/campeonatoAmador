@@ -1,0 +1,11 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">{{ btn }}</button>
+    </form>
+    {# view.kwargs.pk é o número da partida que veio na URL #}
+    <a href="{% url 'detalhePartida' view.kwargs.pk %}">Cancelar</a>
+{% endblock %}

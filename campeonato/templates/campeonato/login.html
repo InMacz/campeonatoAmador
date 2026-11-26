@@ -1,0 +1,11 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form }} {# AuthenticationForm do Django: campos usuário e senha #}
+        <input type="hidden" name="next" value="{{ next }}"> {# depois de logar, volta para a página que a pessoa tentou abrir #}
+        <button type="submit">Entrar</button>
+    </form>
+    <p>Ainda não tem conta? <a href="{% url 'cadastroUsuario' %}">Criar conta</a></p>
+{% endblock %}

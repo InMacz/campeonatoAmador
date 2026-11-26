@@ -1,0 +1,48 @@
+{% extends "campeonato/base.html" %}
+
+{% block conteudo %}
+    {# method="get" coloca os filtros na URL (?busca=...&time=...&posicao=...), e a view lê com request.GET #}
+    <form method="get" class="form-busca">
+        <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar por nome ou time">
+        <select name="time">
+            <option value="">Todos os times</option>
+            {% for t in times %}
+                <option value="{{ t.pk }}" {% if t.pk|stringformat:"s" == filtroTime %}selected{% endif %}>{{ t.nome }}</option>
+            {% endfor %}
+        </select>
+        <select name="posicao">
+            <option value="">Todas as posições</option>
+            {% for valor, texto in posicoes %}
+                <option value="{{ valor }}" {% if valor == filtroPosicao %}selected{% endif %}>{{ texto }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filtrar</button>
+        {% if filtrando %}<a href="{% url 'listaJogadores' %}">Limpar</a>{% endif %}
+    </form>
+
+    <div class="lista-cards">
+        {% for jogador in jogadores %}
+            <div class="card">
+                <h2>{{ jogador.numeroCamisa }} - {{ jogador.nome }}</h2>
+                <p class="categoria">{{ jogador.get_posicao_display }} - {{ jogador.time }}</p> {# get_posicao_display mostra o texto da opção ("Meio-campo") em vez do valor salvo ("meio") #}
+
+                <span class="status status-concluida">
+                    {{ jogador.totalGols }} gol{{ jogador.totalGols|pluralize }}
+                </span>
+
+                {% if user.is_staff %}
+                    <div class="acoes">
+                        <a href="{% url 'editarJogador' jogador.pk %}">Editar</a>
+                        <a href="{% url 'excluirJogador' jogador.pk %}">Excluir</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% empty %}
+            {% if filtrando %}
+                <p class="vazio">Nenhum jogador encontrado com esses filtros.</p>
+            {% else %}
+                <p class="vazio">Nenhum jogador cadastrado.</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

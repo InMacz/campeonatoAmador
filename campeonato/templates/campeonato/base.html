@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block titulo_pagina%}{{tituloPagina}}{% endblock%}</title> {# usando o block titulo para permitir que outras páginas definam o título da página usando herança#}
+    <link rel="stylesheet" href="{% static 'campeonato/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %} {# "user" é o usuário logado, o Django coloca ele em todo template #}
+                    <li><a href="{% url 'listaPartidas' %}">Partidas</a></li> {# usando o name da url para criar o link #}
+                    {% if user.is_staff %}<li><a href="{% url 'cadastrarPartida' %}">Cadastrar Partida</a></li>{% endif %} {# links de cadastro só aparecem para o admin #}
+                    <li><a href="{% url 'listaTimes' %}">Times</a></li>
+                    {% if user.is_staff %}<li><a href="{% url 'cadastrarTime' %}">Cadastrar Time</a></li>{% endif %}
+                    <li><a href="{% url 'listaJogadores' %}">Jogadores</a></li>
+                    {% if user.is_staff %}<li><a href="{% url 'cadastrarJogador' %}">Cadastrar Jogador</a></li>{% endif %}
+                    <li><a href="{% url 'listaArbitros' %}">Árbitros</a></li>
+                    {% if user.is_staff %}<li><a href="{% url 'cadastrarArbitro' %}">Cadastrar Árbitro</a></li>{% endif %}
+
+                    <li class="usuario">
+                        <span>{{ user.username }} <span class="nivel">{% if user.is_staff %}admin{% else %}user{% endif %}</span></span>
+                        {# no Django 5+ o logout precisa ser POST, por isso é um formulário e não um link #}
+                        <form method="post" action="{% url 'logout' %}" class="form-sair">
+                            {% csrf_token %}
+                            <button type="submit">Sair</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Entrar</a></li>
+                    <li><a href="{% url 'cadastroUsuario' %}">Criar conta</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>{% block h1 %}{{h1}}{% endblock %}</h1>
+        {% block conteudo %} {# usando o block conteudo para permitir que outras páginas definam o conteúdo da página usando herança#}
+        {% endblock %}
+    </main>
+</body>
+</html>
